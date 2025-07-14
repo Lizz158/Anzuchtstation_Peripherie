@@ -15,7 +15,7 @@
 bool bme_connected = false;
 
 #define pin_bodentemperatur1 12
-sensorBodentemp Bodentemperatur1(pin_bodentemperatur1);
+SensorSoilTemperature Bodentemperatur1(pin_bodentemperatur1);
 
 const long dryVal1 = 800;
 const long wetVal1 = 300;

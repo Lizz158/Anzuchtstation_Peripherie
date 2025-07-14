@@ -1,13 +1,13 @@
 # include <OneWire.h>
 # include <DallasTemperature.h>
 
-class sensorBodentemp{
+class Sensor_SoilTemperatureHumidity{
     private: 
         OneWire oneWire;
         DallasTemperature sensors;
         float temperature;
     
     public:
-        sensorBodentemp(uint8_t pin);
+        Sensor_SoilTemperatureHumidity(uint8_t pin);
         float getreading();
 };

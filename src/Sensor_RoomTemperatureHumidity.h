@@ -12,10 +12,10 @@
 
 // Adafruit_BME680 bme(&Wire); // I2C
 
-class BME680{
+class Sensor_RoomTemperatureHumidity{
     private:
         float temperature;
         float humidity;
     public:
-        BME680();
+        Sensor_RoomTemperatureHumidity();
 };
