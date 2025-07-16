@@ -29,12 +29,10 @@ void setup() {
 void loop() {
 
   std::map<Metric_Type, std::string> SensorRoom_Values = pSensorRoom->readValue();
+  pSensorRoom->sendMqttMessage();
 
   std::map<Metric_Type, std::string> SensorSoilTemperature_Values = pSensorSoilTemperature->readValue();
-
-
-
-
+  pSensorSoilTemperature->sendMqttMessage();
 
 
   // int a = analogRead(A0);

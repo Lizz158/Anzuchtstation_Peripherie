@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include "Sensor_abstract.h"
 #include "mqtt.h"
+#include "Metric_Type.h"
 
 #define BME_SCK 13
 #define BME_MISO 12
@@ -23,6 +24,7 @@ class Sensor_Room : public Sensor_abstract {
         Sensor_Room();
         void initialize() override;
         std::map<Metric_Type, std::string> readValue() override;
+        void sendMqttMessage() override;
 
         ~Sensor_Room();
 };

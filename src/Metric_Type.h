@@ -1,4 +1,6 @@
 #pragma once
+#include <map>
+#include <string>
 
 enum class Metric_Type {
     SOIL_HUMIDITY, 
@@ -7,3 +9,5 @@ enum class Metric_Type {
     ROOM_TEMPERATURE, 
     LUMINOSITY
 };
+
+std::string metricTypeToString(Metric_Type type);

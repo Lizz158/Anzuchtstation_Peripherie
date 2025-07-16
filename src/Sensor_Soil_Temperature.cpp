@@ -11,7 +11,7 @@ void Sensor_Soil_Temperature::initialize()
 
 std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
 {
-    Serial.println("Started reading values");
+    Serial.println("Started reading values for soil temperature");
 
     sensors.requestTemperatures();
 
@@ -37,6 +37,10 @@ std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
     }
 
     return metricValues;
+}
+
+void Sensor_Soil_Temperature::sendMqttMessage() {
+    sendmqttmessage(metricValues.at(Metric_Type::SOIL_TEMPERATURE), metricTypeToString(Metric_Type::SOIL_TEMPERATURE));
 }
 
 Sensor_Soil_Temperature::~Sensor_Soil_Temperature() {}

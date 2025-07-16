@@ -73,4 +73,12 @@ std::map<Metric_Type, std::string> Sensor_Room::readValue()
     return metricValues;
 }
 
+void Sensor_Room::sendMqttMessage(){
+    std::string myString = metricValues.at(Metric_Type::ROOM_TEMPERATURE);
+    Serial.println(myString.c_str());
+
+    sendmqttmessage(metricValues.at(Metric_Type::ROOM_TEMPERATURE), metricTypeToString(Metric_Type::ROOM_TEMPERATURE));
+    sendmqttmessage(metricValues.at(Metric_Type::ROOM_HUMIDITY), metricTypeToString(Metric_Type::ROOM_HUMIDITY));
+}
+
 Sensor_Room::~Sensor_Room() {}
