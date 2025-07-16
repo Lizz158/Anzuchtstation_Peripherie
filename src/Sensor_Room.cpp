@@ -40,25 +40,22 @@ void Sensor_Room::initialize()
 
 std::map<Metric_Type, std::string> Sensor_Room::readValue()
 {
-
-    Serial.println("Started reading values");
-
     if (bme_connected)
     {
         if (!bme.performReading())
         {
             Serial.println("Failed to perform reading :(");
+            return metricValues;
         }
 
-        std::string room_temperature = std::to_string(bme.temperature);
-        std::string room_humidity = std::to_string(bme.humidity);
+        Serial.println("Started reading values for room temperature and humidity: ");
+        Serial.println('Room temperature: ' + bme.temperature);
+        Serial.println('Room humidity: ' + bme.humidity);
 
-        Serial.println();
+        metricValues[Metric_Type::ROOM_TEMPERATURE] = std::to_string(bme.temperature);
+        metricValues[Metric_Type::ROOM_HUMIDITY] = std::to_string(bme.humidity);
 
-        sendmqttmessage(room_temperature, "raumtemperatur");
-
-        metricValues[Metric_Type::ROOM_TEMPERATURE] = room_temperature;
-        metricValues[Metric_Type::ROOM_HUMIDITY] = room_humidity;
+        Serial.println("Values in map for room temperature and humidity: ");
 
         for (const auto &pair : metricValues)
         {
@@ -73,10 +70,8 @@ std::map<Metric_Type, std::string> Sensor_Room::readValue()
     return metricValues;
 }
 
-void Sensor_Room::sendMqttMessage(){
-    std::string myString = metricValues.at(Metric_Type::ROOM_TEMPERATURE);
-    Serial.println(myString.c_str());
-
+void Sensor_Room::sendMqttMessage()
+{
     sendmqttmessage(metricValues.at(Metric_Type::ROOM_TEMPERATURE), metricTypeToString(Metric_Type::ROOM_TEMPERATURE));
     sendmqttmessage(metricValues.at(Metric_Type::ROOM_HUMIDITY), metricTypeToString(Metric_Type::ROOM_HUMIDITY));
 }

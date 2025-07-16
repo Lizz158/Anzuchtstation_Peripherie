@@ -11,8 +11,6 @@ void Sensor_Soil_Temperature::initialize()
 
 std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
 {
-    Serial.println("Started reading values for soil temperature");
-
     sensors.requestTemperatures();
 
     temperature = sensors.getTempCByIndex(0);
@@ -20,14 +18,14 @@ std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
     if (temperature == DEVICE_DISCONNECTED_C)
     {
         Serial.println("404");
+        return metricValues;
     }
 
-// std::string bodentemperature1 = std::to_string(temperature.getreading());
-  // sendmqttmessage(bodentemperature1, "bodentemperatur1");
-  // delay(2000);
-
+    Serial.println('Started reading values for soil temperature: ' + temperature);
 
     metricValues[Metric_Type::SOIL_TEMPERATURE] = temperature;
+
+    Serial.println('Value in map for soil temperature: ');
 
     for (const auto &pair : metricValues)
     {
@@ -35,6 +33,8 @@ std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
         Serial.print(": ");
         Serial.println(pair.second.c_str());
     }
+
+    delay(2000);
 
     return metricValues;
 }
