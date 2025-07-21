@@ -2,6 +2,8 @@
 
 Sensor_Soil_Humidity::Sensor_Soil_Humidity() {};
 
+void Sensor_Soil_Humidity::initialize() {};
+
 std::map<Metric_Type, std::string> Sensor_Soil_Humidity::readValue()
 {
     int sensor_Val = analogRead(A0);
@@ -14,7 +16,10 @@ std::map<Metric_Type, std::string> Sensor_Soil_Humidity::readValue()
 
     metricValues[Metric_Type::SOIL_HUMIDITY] = std::to_string(humidity);
 
-    Serial.println('Value in map for soil moisture: ' + metricValues.at(Metric_Type::SOIL_HUMIDITY).c_str());
+    std::string myValue = metricValues.at(Metric_Type::SOIL_HUMIDITY);
+
+    Serial.println("Value in map for soil moisture: ");
+    Serial.println(myValue.c_str());
 
     delay(2000);
 

@@ -1,12 +1,5 @@
 #include "Sensor_Room.h"
 
-#define BME_SCK 13
-#define BME_MISO 12
-#define BME_MOSI 11
-#define BME_CS 10
-
-#define SEALEVELPRESSURE_HPA (1013.25)
-
 bool bme_connected = false;
 
 Sensor_Room::Sensor_Room() : bme(&Wire), bme_connected(false) {};

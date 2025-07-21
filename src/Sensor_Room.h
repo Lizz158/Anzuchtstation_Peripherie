@@ -1,17 +1,9 @@
 
-#include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include "Adafruit_BME680.h"
-#include <Wire.h>
 #include "Sensor_abstract.h"
 #include "mqtt.h"
 #include "Metric_Type.h"
-
-#define BME_SCK 13
-#define BME_MISO 12
-#define BME_MOSI 11
-#define BME_CS 10
-#define SEALEVELPRESSURE_HPA (1013.25)
 
 class Sensor_Room : public Sensor_abstract {
     private:
