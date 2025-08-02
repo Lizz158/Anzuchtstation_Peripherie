@@ -10,38 +10,38 @@
 #include "Sensor_Room.h"
 #include "Actor_Lamp.h"
 
-Sensor_Room* pSensorRoom;
-Sensor_Soil_Temperature* pSensorSoilTemperature;
-Sensor_Soil_Humidity* pSensorSoilHumidity;
-Actor_Lamp* pActorLampUp;
 
-void setup() {
-  // pSensorRoom = new Sensor_Room;
-  // pSensorSoilTemperature = new Sensor_Soil_Temperature(D5);
-  // pSensorSoilHumidity = new Sensor_Soil_Humidity;
-  pActorLampUp = new Actor_Lamp("anzuchtstation/lampe_oben", D6, 0);
+Sensor_Room *pSensorRoom;
+Sensor_Soil_Temperature *pSensorSoilTemperature;
+Sensor_Soil_Humidity *pSensorSoilHumidity0;
+Sensor_Soil_Humidity *pSensorSoilHumidity1;
+Sensor_Soil_Humidity *pSensorSoilHumidity2;
+Actor_Lamp *pActorLampUp;
 
-  pinMode(D6, OUTPUT);
-  // digitalWrite(D2, LOW);
-  
+void setup()
+{
   Serial.begin(115200);
   while (!Serial);
+  // pSensorRoom = new Sensor_Room;
+  // pSensorSoilTemperature = new Sensor_Soil_Temperature(D5);
+  pSensorSoilHumidity0 = new Sensor_Soil_Humidity(0.96, 2.67, 0);
+  pSensorSoilHumidity1 = new Sensor_Soil_Humidity(0.96, 2.67, 1);
+  pSensorSoilHumidity2 = new Sensor_Soil_Humidity(0.96, 2.67, 2);
+  pActorLampUp = new Actor_Lamp("anzuchtstation/lampe_oben", D6, 0);
 
-  Wire.begin();               // I2C-Pins definieren
-  
+
+  Wire.begin(); // I2C-Pins definieren
+
   startwlan();
-  
-  startmqtt();
-  
-  // pSensorRoom->initialize();
 
-  // pSensorSoilTemperature->initialize();
+  startmqtt();
 
   subscribetopics();
 
 }
 
-void loop() {
+void loop()
+{
 
   mqttloop();
 
@@ -51,6 +51,12 @@ void loop() {
   // std::map<Metric_Type, std::string> SensorSoilTemperature_Values = pSensorSoilTemperature->readValue();
   // pSensorSoilTemperature->sendMqttMessage();
 
-  // std::map<Metric_Type, std::string> SensorSoilHumidity_Values = pSensorSoilHumidity->readValue();
-  // pSensorSoilHumidity->sendMqttMessage();
+  std::map<Metric_Type, std::string> SensorSoilHumidity_Values0 = pSensorSoilHumidity0->readValue();
+  pSensorSoilHumidity0->sendMqttMessage();
+  std::map<Metric_Type, std::string> SensorSoilHumidity_Values1 = pSensorSoilHumidity1->readValue();
+  pSensorSoilHumidity1->sendMqttMessage();
+  std::map<Metric_Type, std::string> SensorSoilHumidity_Values2 = pSensorSoilHumidity2->readValue();
+  pSensorSoilHumidity2->sendMqttMessage();
+
+  delay(1000);
 }
