@@ -14,8 +14,8 @@ class Sensor_Room : public Sensor_abstract {
 
     public:
         Sensor_Room();
-        void initialize() override;
-        std::map<Metric_Type, std::string> readValue() override;
+        bool initialize() override;
+        void readValue() override;
         void sendMqttMessage() override;
 
         ~Sensor_Room();

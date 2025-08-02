@@ -12,11 +12,12 @@ class Sensor_Soil_Humidity : public Sensor_abstract {
         uint8_t channel;
         static Adafruit_ADS1015 ads;
         static bool isadsinitialized;
+        std::string topic;
 
     public:
-        Sensor_Soil_Humidity(double dryVal, double wetVal, uint8_t channel);
-        void initialize() override;
-        std::map<Metric_Type, std::string> readValue() override;
+        Sensor_Soil_Humidity(double dryVal, double wetVal, uint8_t channel, std::string topic);
+        bool initialize() override;
+        void readValue() override;
         void sendMqttMessage() override;
         ~Sensor_Soil_Humidity();    
 };

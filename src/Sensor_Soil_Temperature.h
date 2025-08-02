@@ -9,12 +9,14 @@ class Sensor_Soil_Temperature : public Sensor_abstract {
         OneWire oneWire;
         DallasTemperature sensors;
         float temperature;
+        std::string topic;
+        bool isconnected;
     
     public:
         Sensor_Soil_Temperature() {};    
-        Sensor_Soil_Temperature(uint8_t pin);
-        void initialize() override;
-        std::map<Metric_Type, std::string> readValue() override;
+        Sensor_Soil_Temperature(uint8_t pin, std::string topic);
+        bool initialize() override;
+        void readValue() override;
         void sendMqttMessage() override;
 
         ~Sensor_Soil_Temperature();

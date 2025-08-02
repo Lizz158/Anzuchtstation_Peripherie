@@ -1,5 +1,6 @@
 #pragma once
 #include <mqtt.h>
+#include <bits/stdc++.h>
 
 /**
  * @brief Abstract class for actors

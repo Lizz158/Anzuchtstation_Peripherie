@@ -9,10 +9,10 @@ void startwlan(){
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);
-    Serial.print("*");
+    // Serial.print("*");
   }  
-  Serial.println("success!");
-  Serial.print("IP Address is: ");
-  Serial.println(WiFi.localIP());
-  Serial.println("WLAN verbunden!");
+  // Serial.println("success!");
+  // Serial.print("IP Address is: ");
+  // Serial.println(WiFi.localIP());
+  // Serial.println("WLAN verbunden!");
 }

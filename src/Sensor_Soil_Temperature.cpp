@@ -1,46 +1,46 @@
 #include <Sensor_Soil_Temperature.h>
 
-Sensor_Soil_Temperature::Sensor_Soil_Temperature(uint8_t pin) : oneWire(pin),
-                                                          sensors(&oneWire),
-                                                          temperature(404) {};
-
-void Sensor_Soil_Temperature::initialize()
+Sensor_Soil_Temperature::Sensor_Soil_Temperature(uint8_t pin, std::string topic) : oneWire(pin),
+                                                                                   sensors(&oneWire),
+                                                                                   temperature(404), topic(topic), isconnected(false)
 {
-    sensors.begin();
+    metricValues[Metric_Type::SOIL_TEMPERATURE] = "0";
+};
+
+bool Sensor_Soil_Temperature::initialize()
+{   
+    if(!isconnected){
+        sensors.begin();
+    }else{
+        DeviceAddress deviceAddress;
+        isconnected = sensors.isConnected(deviceAddress);
+        mqttdebug("ADS1015 nicht verbunden");
+    }
+    return isconnected;
 }
 
-std::map<Metric_Type, std::string> Sensor_Soil_Temperature::readValue()
+void Sensor_Soil_Temperature::readValue()
 {
-    sensors.requestTemperatures();
+    if(isconnected){
+        isconnected = true;
+        sensors.requestTemperatures();
 
-    temperature = sensors.getTempCByIndex(0);
+        temperature = sensors.getTempCByIndex(0);
 
-    if (temperature == DEVICE_DISCONNECTED_C)
-    {
-        Serial.println("404");
-        return metricValues;
+        if (temperature == DEVICE_DISCONNECTED_C)
+        {
+            mqttdebug("ADS1015 nicht verbunden");
+        }
+
+        metricValues[Metric_Type::SOIL_TEMPERATURE] = temperature;
+    }else{
+        isconnected = false;
     }
-
-    Serial.println('Started reading values for soil temperature: ' + temperature);
-
-    metricValues[Metric_Type::SOIL_TEMPERATURE] = temperature;
-
-    Serial.println('Value in map for soil temperature: ');
-
-    for (const auto &pair : metricValues)
-    {
-        Serial.print(static_cast<int>(pair.first));
-        Serial.print(": ");
-        Serial.println(pair.second.c_str());
-    }
-
-    delay(2000);
-
-    return metricValues;
 }
 
-void Sensor_Soil_Temperature::sendMqttMessage() {
-    sendmqttmessage(metricValues.at(Metric_Type::SOIL_TEMPERATURE), metricTypeToString(Metric_Type::SOIL_TEMPERATURE));
+void Sensor_Soil_Temperature::sendMqttMessage()
+{
+    sendmqttmessage(metricValues.at(Metric_Type::SOIL_TEMPERATURE), topic);
 }
 
 Sensor_Soil_Temperature::~Sensor_Soil_Temperature() {}
